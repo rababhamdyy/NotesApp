@@ -13,6 +13,8 @@ import com.example.notesapp.data.models.Note
 import com.example.notesapp.databinding.ActivityEditNoteBinding
 import com.example.notesapp.ui.edit_note.viewmodel.EditNoteViewModel
 import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AlertDialog
+
 
 class EditNoteActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditNoteBinding
@@ -29,9 +31,25 @@ class EditNoteActivity : AppCompatActivity() {
         val note = Note(noteId, title = noteTitle!!, noteText !!)
         binding.note = note
 
+        fun showDeleteConfirmationDialog(view: View, note: Note, onConfirmDelete: () -> Unit) {
+            AlertDialog.Builder(view.context)
+                .setTitle("Delete Note")
+                .setMessage("Do you want to delete this note?")
+                .setPositiveButton("Yes") { _, _ ->
+                    onConfirmDelete()
+                    Snackbar.make(view, "Note deleted", Snackbar.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
         binding.btnDel.setOnClickListener {
-            viewModel.deleteNote(note)
-            finish()
+            showDeleteConfirmationDialog(it, note) {
+                viewModel.deleteNote(note)
+                finish()
+            }
         }
 
         binding.btEdit.setOnClickListener {
@@ -40,6 +58,7 @@ class EditNoteActivity : AppCompatActivity() {
             note.note = editTextNote.text.toString()
             viewModel.editNote(note)
         }
+
 
         fun View.hideKeyboard() {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
