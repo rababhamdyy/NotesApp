@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NotesApp</string>
+    <string name="search">Search for notes</string>
+    <string name="title">Title</string>
+    <string name="note">Note</string>
+    <string name="add_note">Add Note</string>
+    <string name="note_added">Note Added Successfully</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="floating_action_button">Floating Action Button</string>
+</resources>
